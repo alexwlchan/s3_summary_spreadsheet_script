@@ -72,6 +72,8 @@ I'm sharing it here so other people can use it to find quick wins in their own A
 The script uses the S3 CloudWatch metrics to determine the size of the bucket.
 They're only updated every few days, and may be a bit out-of-date or inaccurate, but that's okay – I'm only using this to get a rough idea of which buckets have an unexpected number of objects.
 
+On an account with a dozen buckets, it only takes about a second to run.
+
 
 
 ## License
