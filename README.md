@@ -39,7 +39,12 @@ You need Python 3, which you can install through most package managers or [from 
     ✨ Written a summary of your S3 stats to buckets.csv ✨
     ```
 
+If you use multiple AWS profiles you can specify the profile to use other than
+the default:
 
+    ```console
+    $ python3 create_s3_summary_spreadsheet.py --profile acme
+    ```
 
 ## Motivation
 

@@ -2,6 +2,7 @@
 
 import csv
 import datetime
+import optparse
 
 import boto3
 
@@ -137,9 +138,9 @@ def naturalsize(value):
     return "%.1f %s" % ((base * value / unit), suffix)
 
 
-def write_csv(bucket_sizes):
+def write_csv(bucket_sizes, profile):
     now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    csv_name = f"s3_summary_spreadsheet_{now}.csv"
+    csv_name = f"s3_summary_spreadsheet_{now}_{profile}.csv"
 
     storage_names = [
         "StandardStorage",
@@ -181,8 +182,19 @@ def write_csv(bucket_sizes):
 
 
 if __name__ == "__main__":
-    s3_client = boto3.client("s3")
-    cloudwatch_client = boto3.client("cloudwatch")
+    op = optparse.OptionParser()
+    op.add_option(
+        "-p",
+        "--profile", 
+        dest="profile",
+        default="default",
+        help="Change the AWS profile to use from the default"
+    )
+    opts, args = op.parse_args()
+
+    session = boto3.session.Session(profile_name=opts.profile)
+    s3_client = session.client("s3")
+    cloudwatch_client = session.client("cloudwatch")
 
     bucket_names = get_bucket_names(s3_client)
 
@@ -190,5 +202,5 @@ if __name__ == "__main__":
         get_size_of_bucket(cloudwatch_client, bucket_name=name) for name in bucket_names
     ]
 
-    csv_name = write_csv(bucket_sizes)
+    csv_name = write_csv(bucket_sizes, profile=opts.profile)
     print(f"✨ Written a summary of your S3 stats to {csv_name} ✨")
