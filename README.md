@@ -1,3 +1,9 @@
+Nine months after I wrote this, Amazon introduced [S3 Storage Lens](https://aws.amazon.com/blogs/aws/s3-storage-lens/), which is much better than this.
+
+You should probably use that instead.
+
+---
+
 # s3_summary_spreadsheet_script
 
 This repo has a Python script that creates a spreadsheet with a summary of your S3 buckets:
